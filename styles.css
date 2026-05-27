@@ -18,6 +18,7 @@
   --wa-bg: #0b1418;
   --wa-bubble: #1f2c34;
   --wa-bubble-me: #005c4b;
+  --text-white: #fff;
 }
 
 * {
@@ -43,6 +44,16 @@ body {
   padding: 0 1.5rem;
 }
 
+.green-link {
+  color: var(--accent) !important;
+  text-decoration: none;
+  font-weight: 400;
+  transition: color 0.2s;
+}
+
+.green-link:hover {
+  color: #0ae8a0 !important;
+}
 /* ── Ambient Glows ── */
 .glow {
   position: fixed;
@@ -820,7 +831,7 @@ footer {
 
 .footer-links a {
   font-size: 0.82rem;
-  color: var(--text-muted);
+  color: var(--text-white);
   text-decoration: none;
   transition: color 0.2s;
 }
