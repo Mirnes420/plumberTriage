@@ -28,14 +28,18 @@
 
   <link rel="stylesheet" href="styles.css">
 
+  <script src="https://us-assets.i.posthog.com/static/array.js" async></script>
   <script>
-    !function (t, e) { var o, n, p, r; e.__SV || (window.posthog = e, e._i = [], e.init = function (i, s, a) { function g(t, e) { var o = e.split("."); 2 == o.length && (t = t[o[0]], e = o[1]), t[e] = function () { t.push([e].concat(Array.prototype.slice.call(arguments, 0))) } } (p = t.createElement("script")).type = "text/javascript", p.async = !0, p.src = s, (n = t.getElementsByTagName("script")[0]).parentNode.insertBefore(p, n), e._i.push([i, s, a]) }, e.__SV = 1) }(document, window.posthog || []);
-
-
-    posthog.init('phc_BSccnq23qoR85Q5rVMYxsAsUT8kL9UJyQCC3zLGLtQd3', {
-      api_host: 'https://us.i.posthog.com',
-      defaults: '2026-01-30'
-    })
+    window.addEventListener('DOMContentLoaded', () => {
+      // Ensure the external library asset is fully loaded by the browser engine
+      if (window.posthog) {
+        posthog.init('phc_BSccnq23qoR85Q5rVMYxsAsUT8kL9UJyQCC3zLGLtQd3', { // Swap 'phc_oisadjaijdij' with your actual phc_ project key
+          api_host: 'https://us.i.posthog.com',
+          capture_pageview: true,
+          persistence: 'localStorage'
+        });
+      }
+    });
   </script>
 </head>
 
