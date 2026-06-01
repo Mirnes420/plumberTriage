@@ -149,15 +149,16 @@
       text-shadow: 0 0 40px var(--brand-glow);
     }
 
-    .hero-center p {
-      font-size: 1.2rem;
-      color: var(--text-muted);
-      margin-bottom: 2.25rem;
-      line-height: 1.7;
-      max-width: 760px;
-      margin-left: auto;
-      margin-right: auto;
-    }
+    .scroll-reveal .word {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.scroll-reveal .word.visible {
+  opacity: 1;
+  transform: none;
+}
+
 
     .hero-cta-center {
       display: flex;
