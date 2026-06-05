@@ -59,11 +59,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (menuToggle && navMenu) {
     const toggleMenu = (e) => {
-      if (e) e.preventDefault();
+      // Stop the browser from triggering both touchstart AND click sequentially
+      e.preventDefault();
+      e.stopPropagation();
+
       menuToggle.classList.toggle('active');
       navMenu.classList.toggle('active');
 
-      // Control underlying layout scrolling tracking rules
       if (navMenu.classList.contains('active')) {
         document.body.style.overflow = 'hidden';
       } else {
@@ -71,10 +73,21 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     };
 
+    // Bind to both native mobile touch start and standard pointer clicks
+    menuToggle.addEventListener('touchstart', toggleMenu, { passive: false });
     menuToggle.addEventListener('click', toggleMenu);
 
-    // Close menu view context when an anchor routing links jumps down the page
+    // Close menu view context when an anchor routing link jumps down the page
     navMenu.querySelectorAll('a').forEach(link => {
+      // Handle rapid mobile link selection tap
+      link.addEventListener('touchstart', () => {
+        if (navMenu.classList.contains('active')) {
+          menuToggle.classList.remove('active');
+          navMenu.classList.remove('active');
+          document.body.style.overflow = '';
+        }
+      }, { passive: true });
+
       link.addEventListener('click', () => {
         if (navMenu.classList.contains('active')) {
           menuToggle.classList.remove('active');
