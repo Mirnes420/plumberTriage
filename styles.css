@@ -506,3 +506,111 @@ footer {
     gap: 1rem;
   }
 }
+
+/* Tighten the metrics grid spacing */
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+  margin-top: 3.5rem;
+  border-top: 1px solid rgba(30, 38, 56, 0.6);
+  padding-top: 2.5rem;
+  text-align: left;
+  width: 100%;
+}
+
+/* Card layout wrapper */
+.metric-card {
+  background: linear-gradient(145deg, #0e1424, #070a12);
+  border: 1px solid var(--border-light, #1e2638);
+  padding: 1.25rem 1.5rem;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  gap: 1.15rem;
+}
+
+/* HARD CRASH LIMITS FOR SVG ICONS */
+.metric-icon-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  flex-shrink: 0;
+  /* Prevents text from crushing the icon size */
+}
+
+/* This restricts the actual SVG vector graphic from blowing up */
+.metric-icon-wrapper svg {
+  width: 20px !important;
+  height: 20px !important;
+  display: block;
+}
+
+/* Glassmorphism Accents */
+.metric-icon-wrapper.cyan-glow {
+  background: rgba(0, 240, 255, 0.07);
+  border: 1px solid rgba(0, 240, 255, 0.2);
+  color: var(--brand-electric, #00f0ff);
+}
+
+.metric-icon-wrapper.laser-glow {
+  background: rgba(255, 170, 0, 0.07);
+  border: 1px solid rgba(255, 170, 0, 0.2);
+  color: var(--brand-laser, #ffaa00);
+}
+
+.metric-text-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.metric-val {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #fff;
+  line-height: 1.1;
+}
+
+.metric-lbl {
+  font-size: 0.8rem;
+  color: var(--text-muted, #9ca3af);
+  font-weight: 500;
+  line-height: 1.3;
+}
+
+/* Mobile Viewport Compactor */
+@media (max-width: 768px) {
+  .metrics-grid {
+    grid-template-columns: 1fr;
+    gap: 0.65rem;
+    margin-top: 2rem;
+    padding-top: 1.75rem;
+  }
+
+  .metric-card {
+    padding: 1rem 1.15rem;
+    border-radius: 12px;
+  }
+
+  .metric-icon-wrapper {
+    width: 38px;
+    height: 38px;
+  }
+
+  .metric-icon-wrapper svg {
+    width: 18px !important;
+    height: 18px !important;
+  }
+
+  .metric-val {
+    font-size: 1.25rem;
+  }
+
+  .metric-lbl {
+    font-size: 0.75rem;
+  }
+}
