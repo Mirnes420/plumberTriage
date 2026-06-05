@@ -106,7 +106,7 @@ nav a:hover {
 }
 
 .menu-toggle {
-  display: none;
+  display: flex !important;
   flex-direction: column;
   justify-content: space-between;
   width: 22px;
@@ -121,10 +121,38 @@ nav a:hover {
 .menu-toggle span {
   width: 100%;
   height: 2px;
-  background-color: var(--text-main);
+  background-color: var(--text-main, #f3f4f6);
   transition: all 0.2s ease;
 }
 
+/* 2. Hide standard links into a hidden off-screen sidebar */
+nav {
+  position: fixed;
+  top: 57px;
+  /* Adjust to perfectly meet your header line */
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: calc(100vh - 57px);
+  background: var(--bg-main, #04060a);
+  display: flex !important;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 3rem 2rem;
+  gap: 2rem;
+
+  /* Sent completely off-screen by default */
+  transform: translateX(100%);
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 99;
+}
+
+/* 3. THE MISSING PIECE: Pull the menu onto the screen when active class is applied by JS */
+nav.active {
+  transform: translateX(0) !important;
+}
+
+/* 4. Turn hamburger line stack into an 'X' icon when clicked */
 .menu-toggle.active span:nth-child(1) {
   transform: translateY(7px) rotate(45deg);
 }
@@ -135,6 +163,7 @@ nav a:hover {
 
 .menu-toggle.active span:nth-child(3) {
   transform: translateY(-7px) rotate(-45deg);
+}
 }
 
 /* Layout Structure Layouts */
@@ -531,35 +560,43 @@ footer {
 }
 
 /* HARD CRASH LIMITS FOR SVG ICONS */
+/* Update these explicit rules in your styles.css */
 .metric-icon-wrapper {
-  display: flex;
+  display: inline-flex !important;
+  /* Forces correct box layout parsing */
   align-items: center;
   justify-content: center;
   width: 44px;
   height: 44px;
   border-radius: 10px;
-  flex-shrink: 0;
-  /* Prevents text from crushing the icon size */
+  flex-shrink: 0 !important;
+  /* ABSOLUTE GUARANTEE it won't crush to 0 width on small viewports */
 }
 
-/* This restricts the actual SVG vector graphic from blowing up */
 .metric-icon-wrapper svg {
   width: 20px !important;
   height: 20px !important;
+  min-width: 20px !important;
+  /* Prevents disappearing acts */
+  min-height: 20px !important;
   display: block;
 }
 
-/* Glassmorphism Accents */
-.metric-icon-wrapper.cyan-glow {
-  background: rgba(0, 240, 255, 0.07);
-  border: 1px solid rgba(0, 240, 255, 0.2);
-  color: var(--brand-electric, #00f0ff);
-}
+/* Ensure mobile overrides maintain structural integrity */
+@media (max-width: 768px) {
+  .metric-icon-wrapper {
+    display: inline-flex !important;
+    width: 38px !important;
+    height: 38px !important;
+    flex-shrink: 0 !important;
+  }
 
-.metric-icon-wrapper.laser-glow {
-  background: rgba(255, 170, 0, 0.07);
-  border: 1px solid rgba(255, 170, 0, 0.2);
-  color: var(--brand-laser, #ffaa00);
+  .metric-icon-wrapper svg {
+    width: 18px !important;
+    height: 18px !important;
+    min-width: 18px !important;
+    min-height: 18px !important;
+  }
 }
 
 .metric-text-group {
