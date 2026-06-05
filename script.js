@@ -1,17 +1,39 @@
 document.addEventListener('DOMContentLoaded', () => {
+
+  // ==========================================================================
+  // 1. SCROLL REVEAL ENGINE (Preserves HTML Tags & Layout Structures)
+  // ==========================================================================
   const revealElements = document.querySelectorAll('.scroll-reveal');
+
   revealElements.forEach(el => {
-    // Split text into words and wrap each in a span
-    const words = el.textContent.split(/\s+/).filter(Boolean);
-    el.innerHTML = '';
-    words.forEach((word, i) => {
-      const span = document.createElement('span');
-      span.textContent = word + (i < words.length - 1 ? ' ' : '');
-      span.className = 'word';
-      el.appendChild(span);
-    });
+    // Process text nodes directly to avoid destroying inline HTML tags (<br>, <span>)
+    const processNodes = (node) => {
+      if (node.nodeType === Node.TEXT_NODE) {
+        const text = node.textContent;
+        const words = text.split(/(\s+)/); // Keep spaces intact to protect typography layout
+        const fragment = document.createDocumentFragment();
+
+        words.forEach(word => {
+          if (word.trim().length > 0) {
+            const span = document.createElement('span');
+            span.textContent = word;
+            span.className = 'word';
+            fragment.appendChild(span);
+          } else {
+            fragment.appendChild(document.createTextNode(word));
+          }
+        });
+        node.parentNode.replaceChild(fragment, node);
+      } else if (node.nodeType === Node.ELEMENT_NODE) {
+        // Recursive loop to step inside spans or highlights safely
+        Array.from(node.childNodes).forEach(processNodes);
+      }
+    };
+
+    Array.from(el.childNodes).forEach(processNodes);
   });
 
+  // Trigger reveal animations smoothly using intersection offsets
   const observer = new IntersectionObserver((entries, obs) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
@@ -20,61 +42,52 @@ document.addEventListener('DOMContentLoaded', () => {
         spans.forEach((span, idx) => {
           setTimeout(() => {
             span.classList.add('visible');
-          }, idx * 60); // stagger
+          }, idx * 45); // Snappier stagger timing (45ms instead of 60ms)
         });
         obs.unobserve(el);
       }
     });
-  }, { threshold: 0.1 });
+  }, { threshold: 0.05 });
 
   revealElements.forEach(el => observer.observe(el));
-});
 
-document.addEventListener('DOMContentLoaded', () => {
+  // ==========================================================================
+  // 2. MOBILE NAVIGATION OVERLAY SYSTEM (Single Clean Event Loop)
+  // ==========================================================================
   const menuToggle = document.querySelector('.menu-toggle');
   const navMenu = document.querySelector('nav');
-  const navLinks = document.querySelectorAll('nav a');
 
-  const toggleMenu = () => {
-    menuToggle.classList.toggle('active');
-    navMenu.classList.toggle('active');
-    document.body.style.overflow = navMenu.classList.contains('active') ? 'hidden' : '';
-  };
+  if (menuToggle && navMenu) {
+    const toggleMenu = (e) => {
+      if (e) e.preventDefault();
+      menuToggle.classList.toggle('active');
+      navMenu.classList.toggle('active');
 
-  menuToggle.addEventListener('click', toggleMenu);
-
-  // Close menu dynamically when users click anchor links
-  navLinks.forEach(link => {
-    link.addEventListener('click', () => {
+      // Control underlying layout scrolling tracking rules
       if (navMenu.classList.contains('active')) {
-        toggleMenu();
-      }
-    });
-  });
-});
-
-document.addEventListener('DOMContentLoaded', () => {
-  // Navigation Menu Overlay Controllers
-  const toggle = document.querySelector('.menu-toggle');
-  const nav = document.querySelector('nav');
-
-  if (toggle && nav) {
-    toggle.addEventListener('click', () => {
-      toggle.classList.toggle('active');
-      nav.classList.toggle('active');
-      document.body.style.overflow = nav.classList.contains('active') ? 'hidden' : '';
-    });
-
-    nav.querySelectorAll('a').forEach(link => {
-      link.addEventListener('click', () => {
-        toggle.classList.remove('active');
-        nav.classList.remove('active');
+        document.body.style.overflow = 'hidden';
+      } else {
         document.body.style.overflow = '';
+      }
+    };
+
+    menuToggle.addEventListener('click', toggleMenu);
+
+    // Close menu view context when an anchor routing links jumps down the page
+    navMenu.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        if (navMenu.classList.contains('active')) {
+          menuToggle.classList.remove('active');
+          navMenu.classList.remove('active');
+          document.body.style.overflow = '';
+        }
       });
     });
   }
 
-  // PostHog Explicit Custom Event Capture Engine
+  // ==========================================================================
+  // 3. POSTHOG ANALYTICS CAPTURE LAYER
+  // ==========================================================================
   document.body.addEventListener('click', (event) => {
     const trackTarget = event.target.closest('[data-track]');
 
@@ -88,4 +101,5 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
   });
+
 });

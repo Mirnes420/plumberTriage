@@ -105,66 +105,128 @@ nav a:hover {
   color: var(--brand-electric);
 }
 
-.menu-toggle {
-  display: flex !important;
-  flex-direction: column;
-  justify-content: space-between;
-  width: 22px;
-  height: 16px;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-  z-index: 110;
-}
-
-.menu-toggle span {
-  width: 100%;
-  height: 2px;
-  background-color: var(--text-main, #f3f4f6);
-  transition: all 0.2s ease;
-}
-
-/* 2. Hide standard links into a hidden off-screen sidebar */
-nav {
+/* ==========================================================================
+   1. DESKTOP NAVIGATION BASE (Keep outside media queries, but clean it up)
+   ========================================================================== */
+header {
   position: fixed;
-  top: 57px;
-  /* Adjust to perfectly meet your header line */
+  top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
-  height: calc(100vh - 57px);
+  width: 100%;
   background: var(--bg-main, #04060a);
-  display: flex !important;
-  flex-direction: column;
-  justify-content: flex-start;
-  padding: 3rem 2rem;
-  gap: 2rem;
-
-  /* Sent completely off-screen by default */
-  transform: translateX(100%);
-  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-  z-index: 99;
+  border-bottom: 1px solid var(--border-light, #1e2638);
+  z-index: 100;
+  padding: 1rem 0;
 }
 
-/* 3. THE MISSING PIECE: Pull the menu onto the screen when active class is applied by JS */
-nav.active {
-  transform: translateX(0) !important;
+.nav-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-/* 4. Turn hamburger line stack into an 'X' icon when clicked */
-.menu-toggle.active span:nth-child(1) {
-  transform: translateY(7px) rotate(45deg);
+/* Default Nav state for Desktop viewports */
+nav {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
 }
 
-.menu-toggle.active span:nth-child(2) {
-  opacity: 0;
+/* Hidden by default on Desktop layout viewports */
+.menu-toggle {
+  display: none;
 }
 
-.menu-toggle.active span:nth-child(3) {
-  transform: translateY(-7px) rotate(-45deg);
+/* ==========================================================================
+   2. MOBILE NAVIGATION OVERRIDES (Put this at the absolute bottom of CSS)
+   ========================================================================== */
+@media (max-width: 768px) {
+
+  /* Force display toggle button layout visibility */
+  .menu-toggle {
+    display: flex !important;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 22px;
+    height: 14px;
+    /* Shrunk slightly to match native alignment */
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    z-index: 110;
+    position: relative;
+  }
+
+  .menu-toggle span {
+    width: 100%;
+    height: 2px;
+    background-color: var(--text-main, #f3f4f6);
+    transition: transform 0.2s ease, opacity 0.2s ease;
+    transform-origin: center;
+  }
+
+  /* Structural transformation mapping into full screen slider frame overlay */
+  nav {
+    position: fixed !important;
+    top: 0 !important;
+    /* Start from zero to allow complete coverage */
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    background: #04060a !important;
+    /* High density background matching your theme */
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    /* Centers links vertically on mobile viewport */
+    align-items: center !important;
+    padding: 2rem !important;
+    gap: 2.25rem !important;
+
+    /* Pushes navigation frame completely off screen to the right */
+    transform: translateX(100%) !important;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    z-index: 105 !important;
+  }
+
+  /* Trigger state: JavaScript explicitly toggles this selector class rule */
+  nav.active {
+    transform: translateX(0) !important;
+  }
+
+  /* Set target link properties inside mobile screen slider view */
+  nav a {
+    font-size: 1.5rem !important;
+    font-weight: 700 !important;
+    color: #ffffff !important;
+    text-decoration: none;
+    width: auto;
+    text-align: center;
+  }
+
+  /* Hide custom target buttons when menu structure drops down */
+  nav a.nav-cta {
+    width: 80% !important;
+    max-width: 280px;
+    padding: 0.85rem 1rem;
+    font-size: 1.1rem !important;
+  }
+
+  /* Morph Hamburger icon cleanly into close vector control marker */
+  .menu-toggle.active span:nth-child(1) {
+    transform: translateY(6px) rotate(45deg) !important;
+  }
+
+  .menu-toggle.active span:nth-child(2) {
+    opacity: 0 !important;
+  }
+
+  .menu-toggle.active span:nth-child(3) {
+    transform: translateY(-6px) rotate(-45deg) !important;
+  }
 }
-}
+
 
 /* Layout Structure Layouts */
 section {
@@ -230,33 +292,99 @@ section {
 }
 
 /* Metric Cards Refactor */
+/* Layout Container */
 .metrics-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 1rem;
-  margin-top: 2rem;
+  gap: 1.25rem;
+  margin: 3.5rem auto 0 auto;
+  max-width: 1100px;
+  width: 100%;
 }
 
+/* Premium Dashboard Card */
 .metric-card {
-  background: var(--surface-card);
-  border: 1px solid var(--border-light);
-  padding: 1.5rem 1rem;
-  border-radius: 12px;
-  text-align: center;
+  background: #090e1a;
+  border: 1px solid #1a2333;
+  border-radius: 16px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+  text-align: left;
 }
 
+/* Value & Dot Wrapper */
+.metric-main {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+/* Crisp Minimal Status Indicators */
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.dot-cyan {
+  background: #00f0ff;
+  box-shadow: 0 0 10px rgba(0, 240, 255, 0.6);
+}
+
+.dot-orange {
+  background: #ffaa00;
+  box-shadow: 0 0 10px rgba(255, 170, 0, 0.6);
+}
+
+/* Big Bold Data Metric */
 .metric-val {
-  font-size: 2rem;
+  font-size: 1.75rem;
   font-weight: 800;
-  color: var(--brand-electric);
-  margin-bottom: 0.25rem;
+  color: #ffffff;
+  font-family: 'Inter', sans-serif;
+  letter-spacing: -0.03em;
+  line-height: 1;
 }
 
+/* Secondary Descriptive Text */
 .metric-lbl {
-  font-size: 0.8rem;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  font-weight: 600;
+  font-size: 0.85rem;
+  color: #8fa0ba;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+/* ULTRA CLEAN MOBILE FIX */
+@media (max-width: 768px) {
+  .metrics-grid {
+    grid-template-columns: 1fr;
+    /* Stack vertically */
+    gap: 0.75rem;
+    margin-top: 2.5rem;
+  }
+
+  .metric-card {
+    padding: 1.25rem 1.5rem;
+    gap: 0.35rem;
+    /* Tight, intentional spacing */
+    background: #070b14;
+    border-color: #151c28;
+  }
+
+  .metric-val {
+    font-size: 1.5rem;
+    /* Slightly smaller to fit perfectly on small screens */
+  }
+
+  .metric-lbl {
+    font-size: 0.85rem;
+    color: #8495b0;
+  }
 }
 
 /* Element Grids */
