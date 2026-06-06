@@ -1,13 +1,17 @@
 :root {
-  --bg-main: #04060a;
-  --surface-card: #0b0f19;
-  --surface-accent: #111726;
-  --border-light: #1e2638;
-  --text-main: #f3f4f6;
+  --bg-main: #030712;
+  --surface-card: #0b1120;
+  --surface-accent: #111827;
+  --border-light: #1f2937;
+  --border-glow: #374151;
+  --text-main: #f9fafb;
   --text-muted: #9ca3af;
-  --brand-electric: #00f0ff;
-  --brand-laser: #ffaa00;
-  --brand-glow: rgba(0, 240, 255, 0.12);
+  --brand-electric: #10b981;
+  /* High conversion operations active green */
+  --brand-laser: #f59e0b;
+  /* Warning high voltage/alert amber amber */
+  --brand-cyan: #06b6d4;
+  /* Metric diagnostic ice blue */
 }
 
 * {
@@ -15,10 +19,7 @@
 }
 
 body {
-  background:
-    radial-gradient(circle at top, rgba(0, 240, 255, 0.08), transparent 28%),
-    radial-gradient(circle at bottom, rgba(255, 170, 0, 0.09), transparent 24%),
-    var(--bg-main);
+  background-color: var(--bg-main);
   color: var(--text-main);
   font-family: 'Inter', sans-serif;
   margin: 0;
@@ -28,15 +29,19 @@ body {
   overflow-x: hidden;
 }
 
+/* Premium Industrial Subtle Wireframe Overlay Mesh Grid */
 body::before {
   content: '';
   position: fixed;
   inset: 0;
   pointer-events: none;
-  background-image: linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px);
-  background-size: 100% 1px;
-  opacity: 0.25;
-  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.9), transparent 80%);
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+  background-size: 40px 40px;
+  opacity: 0.8;
+  mask-image: radial-gradient(circle at top, rgba(0, 0, 0, 1) 30%, rgba(0, 0, 0, 0) 80%);
+  z-index: 1;
 }
 
 .container {
@@ -44,18 +49,22 @@ body::before {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 1.5rem;
+  position: relative;
+  z-index: 2;
 }
 
-/* Header & Nav Map */
+/* Header & Navigation Fixes */
 header {
   border-bottom: 1px solid var(--border-light);
-  padding: 1rem 0;
-  background: rgba(4, 6, 10, 0.85);
-  backdrop-filter: blur(16px);
+  padding: 0.85rem 0;
+  background: rgba(3, 7, 18, 0.8);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   position: fixed;
   width: 100%;
   top: 0;
-  z-index: 100;
+  left: 0;
+  z-index: 1000;
 }
 
 .nav-inner {
@@ -67,19 +76,18 @@ header {
 .logo {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 0.65rem;
   font-weight: 800;
-  font-size: 1.25rem;
+  font-size: 1.35rem;
   color: #fff;
   text-decoration: none;
+  letter-spacing: -0.03em;
 }
 
 .logo img {
-  width: 40px;
-  height: 40px;
+  width: 32px;
+  height: 32px;
   object-fit: contain;
-  border-radius: 8px;
-  box-shadow: 0 0 0 1px rgba(0, 240, 255, 0.25);
 }
 
 .logo em {
@@ -90,386 +98,409 @@ header {
 nav {
   display: flex;
   align-items: center;
-  gap: 1.5rem;
+  gap: 1.75rem;
 }
 
 nav a {
   color: var(--text-muted);
   text-decoration: none;
   font-size: 0.9rem;
-  font-weight: 500;
-  transition: color 0.2s ease;
+  font-weight: 600;
+  transition: color 0.15s ease;
 }
 
 nav a:hover {
-  color: var(--brand-electric);
+  color: #fff;
 }
 
-/* ==========================================================================
-   1. DESKTOP NAVIGATION BASE (Keep outside media queries, but clean it up)
-   ========================================================================== */
-header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  background: var(--bg-main, #04060a);
-  border-bottom: 1px solid var(--border-light, #1e2638);
-  z-index: 100;
-  padding: 1rem 0;
+nav a.nav-cta {
+  background: #fff;
+  color: #000;
+  padding: 0.55rem 1.15rem;
+  border-radius: 6px;
+  font-weight: 700;
 }
 
-.nav-inner {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-/* Default Nav state for Desktop viewports */
-nav {
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
-}
-
-/* Hidden by default on Desktop layout viewports */
 .menu-toggle {
   display: none;
 }
 
-/* ==========================================================================
-   2. MOBILE NAVIGATION OVERRIDES (Put this at the absolute bottom of CSS)
-   ========================================================================== */
-@media (max-width: 768px) {
-
-  /* Force display toggle button layout visibility */
-  .menu-toggle {
-    display: flex !important;
-    flex-direction: column;
-    justify-content: space-between;
-    width: 22px;
-    height: 14px;
-    /* Shrunk slightly to match native alignment */
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    padding: 0;
-    z-index: 110;
-    position: relative;
-  }
-
-  .menu-toggle span {
-    width: 100%;
-    height: 2px;
-    background-color: var(--text-main, #f3f4f6);
-    transition: transform 0.2s ease, opacity 0.2s ease;
-    transform-origin: center;
-  }
-
-  /* Structural transformation mapping into full screen slider frame overlay */
-  nav {
-    position: fixed !important;
-    top: 0 !important;
-    /* Start from zero to allow complete coverage */
-    left: 0 !important;
-    width: 100vw !important;
-    height: 100vh !important;
-    background: #04060a !important;
-    /* High density background matching your theme */
-    display: flex !important;
-    flex-direction: column !important;
-    justify-content: center !important;
-    /* Centers links vertically on mobile viewport */
-    align-items: center !important;
-    padding: 2rem !important;
-    gap: 2.25rem !important;
-
-    /* Pushes navigation frame completely off screen to the right */
-    transform: translateX(100%) !important;
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-    z-index: 105 !important;
-  }
-
-  /* Trigger state: JavaScript explicitly toggles this selector class rule */
-  nav.active {
-    transform: translateX(0) !important;
-  }
-
-  /* Set target link properties inside mobile screen slider view */
-  nav a {
-    font-size: 1.5rem !important;
-    font-weight: 700 !important;
-    color: #ffffff !important;
-    text-decoration: none;
-    width: auto;
-    text-align: center;
-  }
-
-  /* Hide custom target buttons when menu structure drops down */
-  nav a.nav-cta {
-    width: 80% !important;
-    max-width: 280px;
-    padding: 0.85rem 1rem;
-    font-size: 1.1rem !important;
-  }
-
-  /* Morph Hamburger icon cleanly into close vector control marker */
-  .menu-toggle.active span:nth-child(1) {
-    transform: translateY(6px) rotate(45deg) !important;
-  }
-
-  .menu-toggle.active span:nth-child(2) {
-    opacity: 0 !important;
-  }
-
-  .menu-toggle.active span:nth-child(3) {
-    transform: translateY(-6px) rotate(-45deg) !important;
-  }
-}
-
-
-/* Layout Structure Layouts */
+/* Layout Core Elements */
 section {
-  padding: 5rem 0;
-  border-top: 1px solid rgba(30, 38, 56, 0.5);
+  padding: 6rem 0;
+  border-top: 1px solid var(--border-light);
 }
 
 .hero-section {
   border-top: none;
-  padding-top: 9rem;
-  padding-bottom: 4rem;
+  padding-top: 11rem;
+  padding-bottom: 5rem;
 }
 
-.hero-center {
-  max-width: 800px;
-  margin: 0 auto;
-  text-align: center;
-}
-
+/* Typewriter Structural Rules */
 .hero-center h1 {
-  font-size: 3rem;
+  font-size: 3.5rem;
   font-weight: 800;
-  line-height: 1.15;
-  letter-spacing: -0.02em;
-  margin: 0 0 1.25rem 0;
+  line-height: 1.1;
+  letter-spacing: -0.04em;
+  margin: 0 0 1.5rem 0;
+  color: #fff;
+  display: inline;
+  /* Keeps cursor locked right up against the last typed letter */
+}
+
+.hero-center h1 .highlight {
+  background: linear-gradient(to right, #ffffff, var(--text-muted, #9ca3af));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Operational Live Terminal Blinking Cursor Line */
+.typing-cursor {
+  display: inline-block;
+  width: 3px;
+  height: 2.8rem;
+  /* Scaled precisely to your h1 line height dimensions */
+  background-color: var(--brand-electric, #10b981);
+  /* Clean green live execution trace */
+  margin-left: 6px;
+  vertical-align: middle;
+  animation: cursorBlink 0.75s step-end infinite;
+  transition: opacity 0.4s ease;
+  box-shadow: 0 0 8px var(--brand-electric, #10b981);
+}
+
+@keyframes cursorBlink {
+
+  from,
+  to {
+    background-color: transparent;
+  }
+
+  50% {
+    background-color: var(--brand-electric, #10b981);
+  }
+}
+
+/* Maintain crisp scaling across responsive smartphone viewports */
+@media (max-width: 768px) {
+  .hero-center h1 {
+    font-size: 2.15rem;
+    line-height: 1.2;
+    display: block;
+    /* Drop down on mobile for proper screen wrapping optimization */
+  }
+
+  .typing-cursor {
+    height: 1.8rem;
+    margin-left: 4px;
+    display: inline-block;
+  }
 }
 
 .hero-center p {
   color: var(--text-muted);
-  font-size: 1.15rem;
+  font-size: 1.2rem;
   line-height: 1.6;
-  margin: 0 auto 2.5rem auto;
-  max-width: 640px;
+  margin: 2rem auto 3rem auto;
+  max-width: 680px;
 }
 
 .hero-cta-center {
   display: flex;
   justify-content: center;
   gap: 1rem;
-  margin-bottom: 4rem;
+  margin-bottom: 5rem;
 }
 
-/* UI Controls */
+/* Premium Heavy Controls */
 .btn {
-  padding: 0.75rem 1.75rem;
-  border-radius: 6px;
+  padding: 0.85rem 2rem;
+  border-radius: 8px;
   font-weight: 700;
   text-decoration: none;
   font-size: 0.95rem;
-  transition: all 0.2s ease;
-  display: inline-block;
+  transition: all 0.15s ease;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
 .btn-primary {
   background: var(--brand-electric);
-  color: #000;
+  color: #030712;
+}
+
+.btn-primary:hover {
+  background: #059669;
+  transform: translateY(-1px);
 }
 
 .btn-ghost {
   border: 1px solid var(--border-light);
-  color: var(--text-main);
+  color: #fff;
   background: rgba(255, 255, 255, 0.02);
 }
 
-/* Metric Cards Refactor */
-/* Layout Container */
+.btn-ghost:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: var(--border-glow);
+}
+
+/* Tactical Performance Metrics Grid Layout */
 .metrics-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 1.25rem;
-  margin: 3.5rem auto 0 auto;
-  max-width: 1100px;
+  gap: 1rem;
+  margin: 4rem auto 0 auto;
+  max-width: 1000px;
   width: 100%;
 }
 
-/* Premium Dashboard Card */
 .metric-card {
-  background: #090e1a;
-  border: 1px solid #1a2333;
-  border-radius: 16px;
-  padding: 1.5rem;
+  background: #090f1c;
+  border: 1px solid var(--border-light);
+  border-radius: 12px;
+  padding: 1.25rem 1.5rem;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 0.5rem;
-  text-align: left;
+  gap: 0.35rem;
 }
 
-/* Value & Dot Wrapper */
 .metric-main {
   display: flex;
   align-items: center;
-  gap: 0.65rem;
+  gap: 0.5rem;
 }
 
-/* Crisp Minimal Status Indicators */
 .status-dot {
-  width: 8px;
-  height: 8px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
-  display: inline-block;
   flex-shrink: 0;
 }
 
 .dot-cyan {
-  background: #00f0ff;
-  box-shadow: 0 0 10px rgba(0, 240, 255, 0.6);
+  background: var(--brand-cyan);
+  box-shadow: 0 0 8px var(--brand-cyan);
 }
 
 .dot-orange {
-  background: #ffaa00;
-  box-shadow: 0 0 10px rgba(255, 170, 0, 0.6);
+  background: var(--brand-laser);
+  box-shadow: 0 0 8px var(--brand-laser);
 }
 
-/* Big Bold Data Metric */
 .metric-val {
-  font-size: 1.75rem;
+  font-size: 1.65rem;
   font-weight: 800;
-  color: #ffffff;
-  font-family: 'Inter', sans-serif;
+  color: #fff;
   letter-spacing: -0.03em;
-  line-height: 1;
+  line-height: 1.1;
 }
 
-/* Secondary Descriptive Text */
 .metric-lbl {
   font-size: 0.85rem;
-  color: #8fa0ba;
+  color: var(--text-muted);
   font-weight: 500;
-  line-height: 1.4;
 }
 
-/* ULTRA CLEAN MOBILE FIX */
-@media (max-width: 768px) {
-  .metrics-grid {
-    grid-template-columns: 1fr;
-    /* Stack vertically */
-    gap: 0.75rem;
-    margin-top: 2.5rem;
-  }
-
-  .metric-card {
-    padding: 1.25rem 1.5rem;
-    gap: 0.35rem;
-    /* Tight, intentional spacing */
-    background: #070b14;
-    border-color: #151c28;
-  }
-
-  .metric-val {
-    font-size: 1.5rem;
-    /* Slightly smaller to fit perfectly on small screens */
-  }
-
-  .metric-lbl {
-    font-size: 0.85rem;
-    color: #8495b0;
-  }
-}
-
-/* Element Grids */
+/* Functional Feature Blocks */
 .section-label {
   color: var(--brand-laser);
   text-transform: uppercase;
   font-weight: 700;
-  font-size: 0.8rem;
-  letter-spacing: 1.5px;
-  margin-bottom: 0.5rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  margin-bottom: 0.75rem;
 }
 
-.section-title {
-  font-size: 2rem;
+.section-title,
+.section-title-center {
+  font-size: 2.25rem;
   font-weight: 800;
-  margin: 0 0 2.5rem 0;
-  letter-spacing: -0.02em;
+  margin: 0 0 3.5rem 0;
+  letter-spacing: -0.03em;
+  color: #fff;
+}
+
+.section-title-center {
+  text-align: center;
 }
 
 .grid-3,
 .edge-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 1.5rem;
+  gap: 1.25rem;
 }
 
 .contrast-card,
 .edge-item {
   background: var(--surface-card);
   border: 1px solid var(--border-light);
-  padding: 2rem 1.5rem;
-  border-radius: 14px;
+  padding: 2.5rem 2rem;
+  border-radius: 12px;
+  text-align: left;
 }
 
 .card-step-num {
-  font-size: 2rem;
+  font-size: 1.5rem;
   font-weight: 800;
-  color: var(--brand-laser);
-  margin-bottom: 1rem;
+  color: var(--border-glow);
+  margin-bottom: 1.25rem;
+  font-variant-numeric: tabular-nums;
 }
 
 .contrast-card h3,
 .edge-item h3 {
-  margin: 0 0 0.5rem 0;
-  font-size: 1.25rem;
+  margin: 0 0 0.75rem 0;
+  font-size: 1.35rem;
+  font-weight: 700;
   color: #fff;
+  letter-spacing: -0.02em;
 }
 
 .contrast-card p,
 .edge-item p {
   color: var(--text-muted);
   font-size: 0.95rem;
+  line-height: 1.5;
   margin: 0;
 }
 
-/* FAQ Layout */
-.faq-layout {
+/* Field Proof Tactical Review Board Styling */
+#testimonials {
+  margin-top: 2rem;
+  /* Add clear explicit separation spacing */
+}
+
+.testimonial-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 1.5rem;
 }
 
+.testimonial-card {
+  background: linear-gradient(180deg, #0b1326 0%, #070b14 100%);
+  border: 1px solid #243042;
+  padding: 2.5rem;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1.75rem;
+  position: relative;
+}
+
+.testimonial-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.operator-badge {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--brand-electric);
+  background: rgba(16, 185, 129, 0.08);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  padding: 0.25rem 0.6rem;
+  border-radius: 4px;
+}
+
+.metric-tag-speed {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.testimonial-card p.quote {
+  color: #f3f4f6;
+  font-size: 1.15rem;
+  font-weight: 500;
+  line-height: 1.6;
+  margin: 0;
+  letter-spacing: -0.01em;
+  font-style: normal;
+}
+
+.author-block {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  padding-top: 1.25rem;
+}
+
+.author-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  background: #1e293b;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.85rem;
+  border: 1px solid var(--border-light);
+}
+
+.author-block p {
+  margin: 0;
+}
+
+.author-block p.author {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.author-block p.location {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+/* FAQ Layout Module */
+.faq-header-block {
+  text-align: center;
+}
+
+.faq-layout {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.25rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
 .faq-card {
   background: var(--surface-card);
   border: 1px solid var(--border-light);
-  padding: 1.5rem;
+  padding: 2rem;
   border-radius: 12px;
 }
 
 .faq-card h4 {
   color: #fff;
-  margin: 0 0 0.5rem 0;
-  font-size: 1.1rem;
+  margin: 0 0 0.75rem 0;
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
 }
 
 .faq-card p {
   color: var(--text-muted);
   font-size: 0.95rem;
+  line-height: 1.5;
   margin: 0;
 }
 
-/* Footer Rules */
+/* Footer Element Tree */
 footer {
-  background: #020305;
-  padding: 4rem 0;
+  background: #020408;
+  padding: 5rem 0;
   border-top: 1px solid var(--border-light);
 }
 
@@ -482,300 +513,239 @@ footer {
 .footer-brand-side {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.75rem;
 }
 
 .footer-copyright {
-  color: var(--text-muted);
+  color: #4b5563;
   font-size: 0.85rem;
   margin: 0;
 }
 
 .footer-links-side {
   display: flex;
-  gap: 3rem;
+  gap: 4rem;
 }
 
 .footer-link-col {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.65rem;
 }
 
 .footer-link-col a {
   color: var(--text-muted);
   text-decoration: none;
   font-size: 0.85rem;
+  font-weight: 500;
 }
 
-/* Strict Professional Grade Mobile Viewport Overrides */
+.footer-link-col a:hover {
+  color: #fff;
+}
+
+/* ==========================================================================
+   3. BULLETPROOF SMARTPHONE VIEWPORT OVERRIDES
+   ========================================================================== */
 @media (max-width: 768px) {
+  body::before {
+    background-size: 24px 24px;
+  }
+
   .container {
     padding: 0 1.25rem;
   }
 
   section {
-    padding: 3rem 0;
+    padding: 4rem 0;
   }
 
   .hero-section {
-    padding-top: 6.5rem;
-    padding-bottom: 2.5rem;
+    padding-top: 7.5rem;
+    padding-bottom: 3.5rem;
   }
 
-  /* Structural Typography Optimization */
   .hero-center {
     text-align: left;
-    /* Shift away from template-heavy center alignment */
+    /* Clean raw alignment layout context */
   }
 
   .hero-center h1 {
-    font-size: 1.85rem;
-    line-height: 1.25;
-    margin-bottom: 0.75rem;
+    font-size: 2.15rem;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+    letter-spacing: -0.03em;
   }
 
   .hero-center p {
-    font-size: 0.95rem;
+    font-size: 1rem;
     line-height: 1.5;
-    margin-bottom: 1.75rem;
+    margin-bottom: 2rem;
   }
 
   .hero-cta-center {
     flex-direction: column;
-    gap: 0.65rem;
-    margin-bottom: 2.5rem;
+    gap: 0.75rem;
+    margin-bottom: 3.5rem;
   }
 
   .btn {
     width: 100%;
     text-align: center;
-    padding: 0.85rem 1.25rem;
+    padding: 0.95rem 1.5rem;
+    font-size: 1rem;
   }
 
-  /* Native Mobile Style Metrics Cards */
+  /* Smartphone Mechanical Row Conversions for Metrics Grid */
   .metrics-grid {
     grid-template-columns: 1fr;
     gap: 0.5rem;
+    margin-top: 2.5rem;
   }
 
   .metric-card {
-    display: flex;
+    flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    padding: 0.85rem 1.15rem;
+    padding: 1rem 1.25rem;
     border-radius: 8px;
-    text-align: left;
+    background: #060a12;
+  }
+
+  .metric-main {
+    order: 2;
   }
 
   .metric-val {
     font-size: 1.35rem;
-    margin-bottom: 0;
-    order: 2;
   }
 
   .metric-lbl {
-    font-size: 0.85rem;
-    text-transform: none;
-    letter-spacing: 0;
-    color: var(--text-main);
+    font-size: 0.9rem;
+    color: #fff;
     order: 1;
   }
 
-  /* Grid Conversions to Single Column Flex Drops */
+  /* Grid Conversions to Single Column Structural Stacks */
   .grid-3,
   .edge-grid,
+  .testimonial-grid,
   .faq-layout {
     grid-template-columns: 1fr;
     gap: 0.75rem;
   }
 
-  .section-title {
-    font-size: 1.45rem;
-    margin-bottom: 1.5rem;
+  .section-title,
+  .section-title-center {
+    font-size: 1.65rem;
+    margin-bottom: 2rem;
+    text-align: left;
   }
 
   .contrast-card,
   .edge-item,
+  .testimonial-card,
   .faq-card {
-    padding: 1.25rem 1rem;
+    padding: 1.75rem 1.25rem;
     border-radius: 10px;
   }
 
-  .card-step-num {
-    font-size: 1.5rem;
-    margin-bottom: 0.35rem;
+  .testimonial-card p.quote {
+    font-size: 1rem;
+    line-height: 1.5;
   }
 
-  .contrast-card h3,
-  .edge-item h3 {
-    font-size: 1.1rem;
-  }
-
-  .contrast-card p,
-  .edge-item p,
-  .faq-card p {
-    font-size: 0.85rem;
-    line-height: 1.4;
-  }
-
-  /* Hamburger Navigation Menu Overlay UI */
+  /* Mobile Hardware Hamburger Slider Panel Layout overrides */
   .menu-toggle {
-    display: flex;
+    display: flex !important;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 22px;
+    height: 14px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    z-index: 2000;
+    position: relative;
+    pointer-events: auto !important;
+    -webkit-tap-highlight-color: transparent !important;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  .menu-toggle span {
+    width: 100%;
+    height: 2px;
+    background-color: #fff;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+    transform-origin: center;
+    pointer-events: none !important;
   }
 
   nav {
-    position: fixed;
-    top: 57px;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    height: calc(100vh - 57px);
-    background: var(--bg-main);
-    flex-direction: column;
-    justify-content: flex-start;
-    padding: 3rem 2rem;
-    gap: 2rem;
-    transform: translateX(100%);
-    transition: transform 0.2s ease-in-out;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    background: #030712 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+    padding: 2rem !important;
+    gap: 2.5rem !important;
+    transform: translateX(100%) !important;
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    z-index: 1500 !important;
   }
 
   nav.active {
-    transform: translateX(0);
+    transform: translateX(0) !important;
   }
 
   nav a {
-    font-size: 1.25rem;
-    width: 100%;
-    border-bottom: 1px solid var(--border-light);
-    padding-bottom: 0.75rem;
+    font-size: 1.4rem !important;
+    font-weight: 700 !important;
+    color: #fff !important;
+    text-decoration: none;
+    width: auto;
+    text-align: center;
+    border: none !important;
+    padding: 0 !important;
   }
 
-  /* Footer Layout Flex Cleanup */
+  nav a.nav-cta {
+    width: 85% !important;
+    max-width: 280px;
+    padding: 0.85rem 1rem !important;
+    font-size: 1.05rem !important;
+    background: var(--brand-electric) !important;
+    color: #030712 !important;
+  }
+
+  /* Vector transforms converting hamburger to navigation close control */
+  .menu-toggle.active span:nth-child(1) {
+    transform: translateY(6px) rotate(45deg) !important;
+  }
+
+  .menu-toggle.active span:nth-child(2) {
+    opacity: 0 !important;
+  }
+
+  .menu-toggle.active span:nth-child(3) {
+    transform: translateY(-6px) rotate(-45deg) !important;
+  }
+
   .footer-inner {
     flex-direction: column;
-    gap: 2rem;
+    gap: 2.5rem;
   }
 
   .footer-links-side {
     width: 100%;
     justify-content: space-between;
     gap: 1rem;
-  }
-}
-
-/* Tighten the metrics grid spacing */
-.metrics-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.25rem;
-  margin-top: 3.5rem;
-  border-top: 1px solid rgba(30, 38, 56, 0.6);
-  padding-top: 2.5rem;
-  text-align: left;
-  width: 100%;
-}
-
-/* Card layout wrapper */
-.metric-card {
-  background: linear-gradient(145deg, #0e1424, #070a12);
-  border: 1px solid var(--border-light, #1e2638);
-  padding: 1.25rem 1.5rem;
-  border-radius: 14px;
-  display: flex;
-  align-items: center;
-  gap: 1.15rem;
-}
-
-/* HARD CRASH LIMITS FOR SVG ICONS */
-/* Update these explicit rules in your styles.css */
-.metric-icon-wrapper {
-  display: inline-flex !important;
-  /* Forces correct box layout parsing */
-  align-items: center;
-  justify-content: center;
-  width: 44px;
-  height: 44px;
-  border-radius: 10px;
-  flex-shrink: 0 !important;
-  /* ABSOLUTE GUARANTEE it won't crush to 0 width on small viewports */
-}
-
-.metric-icon-wrapper svg {
-  width: 20px !important;
-  height: 20px !important;
-  min-width: 20px !important;
-  /* Prevents disappearing acts */
-  min-height: 20px !important;
-  display: block;
-}
-
-/* Ensure mobile overrides maintain structural integrity */
-@media (max-width: 768px) {
-  .metric-icon-wrapper {
-    display: inline-flex !important;
-    width: 38px !important;
-    height: 38px !important;
-    flex-shrink: 0 !important;
-  }
-
-  .metric-icon-wrapper svg {
-    width: 18px !important;
-    height: 18px !important;
-    min-width: 18px !important;
-    min-height: 18px !important;
-  }
-}
-
-.metric-text-group {
-  display: flex;
-  flex-direction: column;
-  gap: 0.15rem;
-}
-
-.metric-val {
-  font-size: 1.5rem;
-  font-weight: 800;
-  color: #fff;
-  line-height: 1.1;
-}
-
-.metric-lbl {
-  font-size: 0.8rem;
-  color: var(--text-muted, #9ca3af);
-  font-weight: 500;
-  line-height: 1.3;
-}
-
-/* Mobile Viewport Compactor */
-@media (max-width: 768px) {
-  .metrics-grid {
-    grid-template-columns: 1fr;
-    gap: 0.65rem;
-    margin-top: 2rem;
-    padding-top: 1.75rem;
-  }
-
-  .metric-card {
-    padding: 1rem 1.15rem;
-    border-radius: 12px;
-  }
-
-  .metric-icon-wrapper {
-    width: 38px;
-    height: 38px;
-  }
-
-  .metric-icon-wrapper svg {
-    width: 18px !important;
-    height: 18px !important;
-  }
-
-  .metric-val {
-    font-size: 1.25rem;
-  }
-
-  .metric-lbl {
-    font-size: 0.75rem;
   }
 }

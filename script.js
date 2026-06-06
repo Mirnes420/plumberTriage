@@ -116,3 +116,62 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
 });
+
+
+// ==========================================================================
+// 1. TACTICAL TYPEWRITER ENGINE (Simulates Human Live Input Parsing)
+// ==========================================================================
+const typewriterElement = document.querySelector('.hero-center h1');
+
+if (typewriterElement) {
+  // Store original markup structured form
+  const originalHTML = typewriterElement.innerHTML;
+  typewriterElement.innerHTML = ''; // Clear canvas to prepare input loop
+
+  // Create professional blinking terminal cursor tracker element
+  const cursor = document.createElement('span');
+  cursor.className = 'typing-cursor';
+  typewriterElement.parentNode.insertBefore(cursor, typewriterElement.nextSibling);
+
+  let index = 0;
+  let currentHTML = '';
+  let isInsideTag = false;
+
+  const typeEngine = () => {
+    if (index < originalHTML.length) {
+      const char = originalHTML[index];
+
+      // Ensure engine bypasses HTML tag syntax vectors instantly (<br>, <span> tags)
+      if (char === '<') isInsideTag = true;
+      if (char === '>') {
+        isInsideTag = false;
+        currentHTML += originalHTML[index];
+        index++;
+        typewriterElement.innerHTML = currentHTML;
+        setTimeout(typeEngine, 20); // Fast snap catch up for tag closures
+        return;
+      }
+
+      currentHTML += char;
+      if (!isInsideTag) {
+        typewriterElement.innerHTML = currentHTML;
+        // Human-like speed variance: random delays simulate natural keystrokes
+        const keystrokeDelay = Math.random() * (60 - 25) + 25;
+        index++;
+        setTimeout(typeEngine, keystrokeDelay);
+      } else {
+        index++;
+        typeEngine();
+      }
+    } else {
+      // Text is fully typed out: smoothly fade away the operational cursor line
+      setTimeout(() => {
+        cursor.style.opacity = '0';
+        setTimeout(() => cursor.remove(), 400);
+      }, 1500);
+    }
+  };
+
+  // Initialize layout typing loop using a 400ms buffer after load finishes
+  setTimeout(typeEngine, 400);
+}
