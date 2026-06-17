@@ -59,8 +59,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (menuToggle && navMenu) {
     const toggleMenu = (e) => {
-      // Stop the browser from triggering both touchstart AND click sequentially
-      e.preventDefault();
       e.stopPropagation();
 
       menuToggle.classList.toggle('active');
@@ -73,21 +71,11 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     };
 
-    // Bind to both native mobile touch start and standard pointer clicks
-    menuToggle.addEventListener('touchstart', toggleMenu, { passive: false });
+    // Bind to standard pointer clicks (handles mobile and desktop instantly)
     menuToggle.addEventListener('click', toggleMenu);
 
     // Close menu view context when an anchor routing link jumps down the page
     navMenu.querySelectorAll('a').forEach(link => {
-      // Handle rapid mobile link selection tap
-      link.addEventListener('touchstart', () => {
-        if (navMenu.classList.contains('active')) {
-          menuToggle.classList.remove('active');
-          navMenu.classList.remove('active');
-          document.body.style.overflow = '';
-        }
-      }, { passive: true });
-
       link.addEventListener('click', () => {
         if (navMenu.classList.contains('active')) {
           menuToggle.classList.remove('active');
@@ -115,7 +103,77 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  // ==========================================================================
+  // 4. SCROLL FADE-IN & STAGGER ENGINE
+  // ==========================================================================
+  const fadeElements = document.querySelectorAll('.fade-in-scroll');
+  const fadeObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        fadeObserver.unobserve(entry.target);
+      }
+    });
+  }, {
+    threshold: 0.05,
+    rootMargin: '0px 0px -30px 0px'
+  });
+
+  fadeElements.forEach(el => fadeObserver.observe(el));
+
+  // ==========================================================================
+  // 5. STATS COUNTER ANIMATION ENGINE
+  // ==========================================================================
+  const counterElements = document.querySelectorAll('[data-counter]');
+  
+  const animateCounter = (el) => {
+    const target = parseFloat(el.getAttribute('data-counter'));
+    const decimals = parseInt(el.getAttribute('data-decimals') || '0', 10);
+    const duration = 1500; 
+    const startTime = performance.now();
+    
+    const updateCount = (currentTime) => {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      
+      const easeProgress = progress * (2 - progress);
+      const currentValue = easeProgress * target;
+      
+      if (decimals > 0) {
+        el.textContent = currentValue.toFixed(decimals);
+      } else {
+        el.textContent = Math.floor(currentValue);
+      }
+      
+      if (progress < 1) {
+        requestAnimationFrame(updateCount);
+      } else {
+        if (decimals > 0) {
+          el.textContent = target.toFixed(decimals);
+        } else {
+          el.textContent = target;
+        }
+      }
+    };
+    
+    requestAnimationFrame(updateCount);
+  };
+
+  const counterObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        animateCounter(entry.target);
+        counterObserver.unobserve(entry.target);
+      }
+    });
+  }, {
+    threshold: 0.1
+  });
+
+  counterElements.forEach(el => counterObserver.observe(el));
+
 });
+
 
 
 // ==========================================================================
