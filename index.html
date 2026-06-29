@@ -748,14 +748,29 @@
         font-size: 1rem;
       }
 
+      .hero-inner {
+        grid-template-columns: 1fr !important;
+        width: 100% !important;
+        padding: 0 !important;
+      }
+
       .hero-actions {
-        flex-direction: column;
-        align-items: stretch;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: stretch !important;
+        justify-content: transform !important;
+        width: 100% !important;
+        gap: 0.75rem !important;
+        margin: 1.5rem 0 1rem 0 !important;
+        /* Forces layout tracking resets */
       }
 
       .btn-dark,
       .btn-outline {
-        text-align: center;
+        display: block !important;
+        width: 100% !important;
+        text-align: center !important;
+        box-sizing: border-box !important;
       }
 
       .wa-card {
@@ -840,26 +855,27 @@
           <h1>Handle emergencies <br> like a pro.</h1>
           <p>Customers fill a 3-step form. Your team gets a structured incident report on WhatsApp in under 15 seconds.
             No calls, no back and forth, no missed emergencies.</p>
+
           <div class="hero-actions">
             <a href="https://whop.com/gentleman-solutions/plumber-emergency/" class="btn-dark" target="_blank"
               rel="noopener">Start Free Trial</a>
             <a href="https://app.triageflow.gentlemansolutions.com/demo" class="btn-outline" target="_blank"
               rel="noopener">See Live Demo</a>
           </div>
+
           <p class="trial-note">7 days free, then $69.99/month. Cancel anytime.</p>
         </div>
-
-        <section id="seeit">
-          <div class="eyebrow">See it in action!</div>
-
-          <div class="phone-mockup">
-            <div class="phone-screen">
-              <video src="landing-vid.mp4" controls autoplay muted loop></video>
-            </div>
-          </div>
-        </section>
       </div>
     </div>
+
+    <section id="seeit">
+      <div class="eyebrow">See it in action!</div>
+      <div class="phone-mockup">
+        <div class="phone-screen">
+          <video src="landing-vid.mp4" controls autoplay muted loop></video>
+        </div>
+      </div>
+    </section>
 
     <hr class="divider">
 
