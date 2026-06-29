@@ -77,7 +77,8 @@
     .logo {
       display: flex;
       align-items: center;
-      gap: 0.5rem;
+      gap: 0.25rem;
+      /* Reduce this number (e.g., 2px, 4px, or 0.2rem) to make them closer */
       font-weight: 800;
       font-size: 1.1rem;
       letter-spacing: -0.03em;
@@ -89,6 +90,8 @@
       width: 28px;
       height: 28px;
       object-fit: contain;
+      /* Ensure no default right margin is pushing the text away */
+      margin-right: 0;
     }
 
     .logo em {
@@ -399,6 +402,65 @@
       font-size: 0.875rem;
       color: var(--gray-mid);
       line-height: 1.6;
+    }
+
+    /*  SEE IT IN ACTION SECTION */
+    /*  phone mockup inside your section */
+    #seeit {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+    }
+
+    /* Outer phone frame properties */
+    .phone-mockup {
+      position: relative;
+      width: 320px;
+      /* Standard premium mobile viewport width */
+      height: 640px;
+      /* 19.5:9 or 16:9 vertical aspect ratio scale */
+      background: #0a0a0a;
+      /* Sleek dark bezel color */
+      border: 11px solid #1f2937;
+      /* Phone outer rim */
+      border-radius: 36px;
+      /* Smooth curved corner chassis */
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25),
+        0 0 0 2px #111827;
+      /* Deep professional depth shadows */
+      overflow: hidden;
+      margin: 2rem auto;
+    }
+
+    /* Inner screen containing the video asset */
+    .phone-screen {
+      width: 100%;
+      height: 100%;
+      background: #000;
+      border-radius: 26px;
+      /* Inner screen curvature matching the frame */
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Ensure the video scales flawlessly to fit the screen without stretching */
+    .phone-screen video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      /* Keeps it sharp and edge-to-edge like a real app */
+    }
+
+    /* Responsive adjustment for ultra-small mobile displays */
+    @media (max-width: 360px) {
+      .phone-mockup {
+        width: 280px;
+        height: 560px;
+      }
     }
 
     /* ── PRICING ── */
@@ -787,37 +849,15 @@
           <p class="trial-note">7 days free, then $69.99/month. Cancel anytime.</p>
         </div>
 
-        <div class="wa-card">
-          <div class="wa-meta">
-            <div class="wa-dot"></div>
-            TriageFlow &middot; WhatsApp
+        <section id="seeit">
+          <div class="eyebrow">See it in action!</div>
+
+          <div class="phone-mockup">
+            <div class="phone-screen">
+              <video src="landing-vid.mp4" controls autoplay muted loop></video>
+            </div>
           </div>
-          <div class="wa-priority">HIGH PRIORITY</div>
-          <div class="wa-title">🚨 NEW EMERGENCY ALERT</div>
-          <div class="wa-row">
-            <span class="wa-lbl">Customer</span>
-            <span class="wa-val">John Doe</span>
-          </div>
-          <div class="wa-row">
-            <span class="wa-lbl">Address</span>
-            <span class="wa-val">Elmor Street, CA</span>
-          </div>
-          <div class="wa-row">
-            <span class="wa-lbl">Navigate</span>
-            <span class="wa-link">Google Maps ↗&nbsp;&nbsp;Apple Maps ↗</span>
-          </div>
-          <hr class="wa-hr">
-          <div class="wa-row">
-            <span class="wa-lbl">Issue</span>
-            <span class="wa-val">Burst pipe under kitchen sink, significant flooding</span>
-          </div>
-          <hr class="wa-hr">
-          <div class="wa-row">
-            <span class="wa-lbl">Bring</span>
-            <span class="wa-tools">Pipe wrench, basin wrench, flexible supply line, compression fittings, shop vac,
-              bucket</span>
-          </div>
-        </div>
+        </section>
       </div>
     </div>
 
@@ -929,6 +969,8 @@
         </div>
       </div>
     </section>
+
+
 
     <hr class="divider">
 
