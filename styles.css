@@ -28,6 +28,7 @@ body {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
+  font-family:Georgia, 'Times New Roman', Times, serif ;
 }
 
 /* ── HEADER ── */
