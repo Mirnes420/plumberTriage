@@ -22,812 +22,33 @@
   <link rel="icon" type="image/x-icon" href="logo.png">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
     rel="stylesheet">
-
-  <style>
-    *,
-    *::before,
-    *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    :root {
-      --white: #ffffff;
-      --off-white: #f7f7f5;
-      --black: #0a0a0a;
-      --gray-mid: #6b7280;
-      --gray-light: #f0efed;
-      --gray-border: #e4e4e0;
-      --red: #d63a2a;
-      --green: #16a34a;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      background: var(--white);
-      color: var(--black);
-      font-family: 'Inter', sans-serif;
-      line-height: 1.5;
-      -webkit-font-smoothing: antialiased;
-      overflow-x: hidden;
-    }
-
-    /* ── HEADER ── */
-    header {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 100;
-      background: rgba(255, 255, 255, 0.94);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      border-bottom: 1px solid var(--gray-border);
-      height: 62px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 2.5rem;
-    }
-
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 0.25rem;
-      /* Reduce this number (e.g., 2px, 4px, or 0.2rem) to make them closer */
-      font-weight: 800;
-      font-size: 1.1rem;
-      letter-spacing: -0.03em;
-      color: var(--black);
-      text-decoration: none;
-    }
-
-    .logo img {
-      width: 28px;
-      height: 28px;
-      object-fit: contain;
-      /* Ensure no default right margin is pushing the text away */
-      margin-right: 0;
-    }
-
-    .logo em {
-      color: var(--red);
-      font-style: normal;
-    }
-
-    nav {
-      display: flex;
-      align-items: center;
-      gap: 2rem;
-    }
-
-    nav a {
-      color: var(--gray-mid);
-      text-decoration: none;
-      font-size: 0.875rem;
-      font-weight: 500;
-      transition: color 0.15s;
-    }
-
-    nav a:hover {
-      color: var(--black);
-    }
-
-    .nav-cta {
-      background: var(--black) !important;
-      color: #fff !important;
-      padding: 0.5rem 1.1rem !important;
-      border-radius: 6px;
-      font-weight: 700 !important;
-      font-size: 0.85rem !important;
-    }
-
-    .menu-toggle {
-      display: none;
-    }
-
-    /* ── HERO ── */
-    .hero {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      padding: 9rem 2.5rem 5rem;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    .hero-inner {
-      display: grid;
-      grid-template-columns: 1fr 420px;
-      gap: 5rem;
-      align-items: center;
-      width: 100%;
-    }
-
-    .hero-eyebrow {
-      font-size: 0.72rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      color: var(--red);
-      margin-bottom: 1.25rem;
-    }
-
-    .hero h1 {
-      font-size: 4rem;
-      font-weight: 900;
-      line-height: 1.0;
-      letter-spacing: -0.045em;
-      color: var(--black);
-      margin-bottom: 1.5rem;
-    }
-
-    .hero p {
-      font-size: 1.1rem;
-      color: var(--gray-mid);
-      line-height: 1.65;
-      max-width: 500px;
-      margin-bottom: 2.25rem;
-    }
-
-    .hero-actions {
-      display: flex;
-      gap: 0.75rem;
-      align-items: center;
-      margin-bottom: 1rem;
-    }
-
-    .btn-dark {
-      background: var(--black);
-      color: #fff;
-      padding: 0.8rem 1.75rem;
-      border-radius: 7px;
-      font-weight: 700;
-      font-size: 0.9rem;
-      text-decoration: none;
-      transition: opacity 0.15s;
-      white-space: nowrap;
-    }
-
-    .btn-dark:hover {
-      opacity: 0.78;
-    }
-
-    .btn-outline {
-      border: 1.5px solid var(--gray-border);
-      color: var(--black);
-      padding: 0.8rem 1.75rem;
-      border-radius: 7px;
-      font-weight: 600;
-      font-size: 0.9rem;
-      text-decoration: none;
-      transition: border-color 0.15s;
-      white-space: nowrap;
-    }
-
-    .btn-outline:hover {
-      border-color: var(--black);
-    }
-
-    .trial-note {
-      font-size: 0.8rem;
-      color: var(--gray-mid);
-    }
-
-    /* ── WA PREVIEW CARD ── */
-    .wa-card {
-      background: #111827;
-      border-radius: 18px;
-      padding: 1.5rem;
-      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.14), 0 4px 16px rgba(0, 0, 0, 0.08);
-      width: 100%;
-    }
-
-    .wa-meta {
-      display: flex;
-      align-items: center;
-      gap: 0.45rem;
-      font-size: 0.72rem;
-      color: #6b7280;
-      margin-bottom: 1.25rem;
-      font-weight: 500;
-    }
-
-    .wa-dot {
-      width: 7px;
-      height: 7px;
-      background: #25d366;
-      border-radius: 50%;
-      flex-shrink: 0;
-    }
-
-    .wa-priority {
-      display: inline-block;
-      background: rgba(214, 58, 42, 0.12);
-      color: var(--red);
-      font-size: 0.65rem;
-      font-weight: 800;
-      padding: 0.2rem 0.55rem;
-      border-radius: 4px;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      margin-bottom: 0.6rem;
-    }
-
-    .wa-title {
-      font-size: 0.9rem;
-      font-weight: 800;
-      color: #f9fafb;
-      margin-bottom: 1.1rem;
-      letter-spacing: -0.01em;
-    }
-
-    .wa-row {
-      display: flex;
-      gap: 0.75rem;
-      margin-bottom: 0.55rem;
-    }
-
-    .wa-lbl {
-      font-size: 0.74rem;
-      font-weight: 600;
-      color: #6b7280;
-      min-width: 80px;
-      padding-top: 0.05rem;
-    }
-
-    .wa-val {
-      font-size: 0.82rem;
-      color: #e5e7eb;
-      line-height: 1.45;
-    }
-
-    .wa-link {
-      color: #60a5fa;
-      font-size: 0.8rem;
-    }
-
-    .wa-hr {
-      border: none;
-      border-top: 1px solid rgba(255, 255, 255, 0.07);
-      margin: 0.85rem 0;
-    }
-
-    .wa-tools {
-      font-size: 0.76rem;
-      color: #9ca3af;
-      line-height: 1.5;
-    }
-
-    /* ── DIVIDER ── */
-    .divider {
-      border: none;
-      border-top: 1px solid var(--gray-border);
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    /* ── SECTIONS ── */
-    section {
-      padding: 6rem 2.5rem;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    .eyebrow {
-      font-size: 0.72rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      color: var(--gray-mid);
-      margin-bottom: 0.7rem;
-    }
-
-    .section-title {
-      font-size: 2.25rem;
-      font-weight: 800;
-      letter-spacing: -0.03em;
-      line-height: 1.15;
-      color: var(--black);
-      margin-bottom: 3rem;
-      max-width: 620px;
-    }
-
-    /* ── HOW IT WORKS ── */
-    .steps {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1.5rem;
-    }
-
-    .step {
-      border: 1px solid var(--gray-border);
-      border-radius: 12px;
-      padding: 2rem 1.75rem;
-    }
-
-    .step-num {
-      font-size: 0.7rem;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      color: var(--gray-mid);
-      margin-bottom: 1.1rem;
-    }
-
-    .step h3 {
-      font-size: 1.05rem;
-      font-weight: 700;
-      color: var(--black);
-      margin-bottom: 0.55rem;
-      letter-spacing: -0.02em;
-    }
-
-    .step p {
-      font-size: 0.88rem;
-      color: var(--gray-mid);
-      line-height: 1.6;
-    }
-
-    /* ── FEATURES ── */
-    .features {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 3rem 2.5rem;
-    }
-
-    .feature-icon {
-      width: 36px;
-      height: 36px;
-      background: var(--gray-light);
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 1rem;
-    }
-
-    .feature h3 {
-      font-size: 1rem;
-      font-weight: 700;
-      color: var(--black);
-      margin-bottom: 0.45rem;
-      letter-spacing: -0.015em;
-    }
-
-    .feature p {
-      font-size: 0.875rem;
-      color: var(--gray-mid);
-      line-height: 1.6;
-    }
-
-    /*  SEE IT IN ACTION SECTION */
-    /*  phone mockup inside your section */
-    #seeit {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      width: 100%;
-    }
-
-    /* Outer phone frame properties */
-    .phone-mockup {
-      position: relative;
-      width: 320px;
-      /* Standard premium mobile viewport width */
-      height: 640px;
-      /* 19.5:9 or 16:9 vertical aspect ratio scale */
-      background: #0a0a0a;
-      /* Sleek dark bezel color */
-      border: 11px solid #1f2937;
-      /* Phone outer rim */
-      border-radius: 36px;
-      /* Smooth curved corner chassis */
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25),
-        0 0 0 2px #111827;
-      /* Deep professional depth shadows */
-      overflow: hidden;
-      margin: 2rem auto;
-    }
-
-    /* Inner screen containing the video asset */
-    .phone-screen {
-      width: 100%;
-      height: 100%;
-      background: #000;
-      border-radius: 26px;
-      /* Inner screen curvature matching the frame */
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    /* Ensure the video scales flawlessly to fit the screen without stretching */
-    .phone-screen video {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      /* Keeps it sharp and edge-to-edge like a real app */
-    }
-
-    /* Responsive adjustment for ultra-small mobile displays */
-    @media (max-width: 360px) {
-      .phone-mockup {
-        width: 280px;
-        height: 560px;
-      }
-    }
-
-    /* ── PRICING ── */
-    .pricing-center {
-      display: flex;
-      justify-content: center;
-    }
-
-    .pricing-card {
-      border: 1.5px solid var(--black);
-      border-radius: 18px;
-      padding: 3rem;
-      max-width: 460px;
-      width: 100%;
-    }
-
-    .pricing-plan {
-      font-size: 0.72rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: var(--gray-mid);
-      margin-bottom: 0.4rem;
-    }
-
-    .pricing-name {
-      font-size: 1.4rem;
-      font-weight: 800;
-      color: var(--black);
-      letter-spacing: -0.02em;
-      margin-bottom: 0.4rem;
-    }
-
-    .pricing-sub {
-      font-size: 0.875rem;
-      color: var(--gray-mid);
-      margin-bottom: 2rem;
-      line-height: 1.5;
-    }
-
-    .pricing-price-block {
-      margin-bottom: 2rem;
-    }
-
-    .trial-badge {
-      font-size: 0.72rem;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: var(--red);
-      margin-bottom: 0.4rem;
-    }
-
-    .price-main {
-      font-size: 3.5rem;
-      font-weight: 900;
-      color: var(--black);
-      letter-spacing: -0.04em;
-      line-height: 1;
-    }
-
-    .price-main span {
-      font-size: 1rem;
-      font-weight: 500;
-      color: var(--gray-mid);
-      letter-spacing: 0;
-    }
-
-    .pricing-list {
-      list-style: none;
-      margin-bottom: 2.25rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.7rem;
-    }
-
-    .pricing-list li {
-      display: flex;
-      gap: 0.65rem;
-      font-size: 0.9rem;
-      color: var(--black);
-      align-items: flex-start;
-    }
-
-    .check {
-      color: var(--green);
-      font-weight: 700;
-      flex-shrink: 0;
-    }
-
-    .pricing-cta {
-      display: block;
-      background: var(--black);
-      color: #fff;
-      text-align: center;
-      padding: 1rem;
-      border-radius: 8px;
-      font-weight: 700;
-      font-size: 1rem;
-      text-decoration: none;
-      transition: opacity 0.15s;
-    }
-
-    .pricing-cta:hover {
-      opacity: 0.78;
-    }
-
-    .pricing-footnote {
-      font-size: 0.775rem;
-      color: var(--gray-mid);
-      text-align: center;
-      margin-top: 0.75rem;
-    }
-
-    /* ── FAQ ── */
-    .faq-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1.25rem;
-    }
-
-    .faq-item {
-      background: var(--off-white);
-      border-radius: 10px;
-      padding: 1.75rem;
-    }
-
-    .faq-item h4 {
-      font-size: 0.95rem;
-      font-weight: 700;
-      color: var(--black);
-      margin-bottom: 0.5rem;
-      letter-spacing: -0.01em;
-    }
-
-    .faq-item p {
-      font-size: 0.875rem;
-      color: var(--gray-mid);
-      line-height: 1.6;
-    }
-
-    /* ── FOOTER ── */
-    footer {
-      border-top: 1px solid var(--gray-border);
-      padding: 3rem 2.5rem;
-      max-width: 1200px;
-      margin: 0 auto;
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-    }
-
-    .footer-copy {
-      font-size: 0.78rem;
-      color: var(--gray-mid);
-      margin-top: 0.4rem;
-    }
-
-    .footer-links {
-      display: flex;
-      gap: 4rem;
-    }
-
-    .footer-col {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-    }
-
-    .footer-col a {
-      font-size: 0.82rem;
-      color: var(--gray-mid);
-      text-decoration: none;
-      font-weight: 500;
-      transition: color 0.15s;
-    }
-
-    .footer-col a:hover {
-      color: var(--black);
-    }
-
-    /* ── MOBILE ── */
-    @media (max-width: 900px) {
-      .hero-inner {
-        grid-template-columns: 1fr;
-        gap: 3rem;
-      }
-
-      .wa-card {
-        max-width: 400px;
-      }
-    }
-
-
-    /* ── MOBILE CORRECTIONS ── */
-    @media (max-width: 768px) {
-      header {
-        padding: 0 1.5rem;
-      }
-
-      .menu-toggle {
-        display: flex;
-        flex-direction: column;
-        gap: 5px;
-        background: none;
-        border: none;
-        cursor: pointer;
-        padding: 4px;
-        z-index: 300;
-        /* Stays above the open mobile menu panel */
-      }
-
-      .menu-toggle span {
-        display: block;
-        width: 22px;
-        height: 2px;
-        background: var(--black);
-        transition: transform 0.2s ease, opacity 0.2s ease;
-        transform-origin: center;
-      }
-
-      .menu-toggle.active span:nth-child(1) {
-        transform: translateY(7px) rotate(45deg);
-      }
-
-      .menu-toggle.active span:nth-child(2) {
-        opacity: 0;
-      }
-
-      .menu-toggle.active span:nth-child(3) {
-        transform: translateY(-7px) rotate(-45deg);
-      }
-
-      /* Base hidden state for mobile navigation menu panel */
-      nav {
-        display: flex;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
-        background: #ffffff !important;
-        /* Force solid white background */
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        gap: 2.5rem;
-        z-index: 200;
-        /* Positions container on top of hero content */
-        opacity: 0;
-        pointer-events: none;
-        /* Prevents clicks when hidden */
-        transition: opacity 0.25s ease-in-out;
-        backdrop-filter: none !important;
-        -webkit-backdrop-filter: none !important;
-      }
-
-      /* Active layout configuration when panel drops down */
-      nav.active {
-        opacity: 1;
-        pointer-events: auto;
-        /* Allows element selection */
-      }
-
-      nav a {
-        font-size: 1.3rem !important;
-        color: var(--black) !important;
-      }
-
-      nav .nav-cta {
-        padding: 0.75rem 2rem !important;
-        font-size: 1rem !important;
-      }
-
-      .hero {
-        padding: 7rem 1.5rem 4rem;
-        min-height: auto;
-      }
-
-      .hero h1 {
-        font-size: 2.5rem;
-      }
-
-      .hero p {
-        font-size: 1rem;
-      }
-
-      .hero-inner {
-        grid-template-columns: 1fr !important;
-        width: 100% !important;
-        padding: 0 !important;
-      }
-
-      .hero-actions {
-        display: flex !important;
-        flex-direction: column !important;
-        align-items: stretch !important;
-        justify-content: transform !important;
-        width: 100% !important;
-        gap: 0.75rem !important;
-        margin: 1.5rem 0 1rem 0 !important;
-        /* Forces layout tracking resets */
-      }
-
-      .btn-dark,
-      .btn-outline {
-        display: block !important;
-        width: 100% !important;
-        text-align: center !important;
-        box-sizing: border-box !important;
-      }
-
-      .wa-card {
-        max-width: 100%;
-      }
-
-      section {
-        padding: 4rem 1.5rem;
-      }
-
-      .section-title {
-        font-size: 1.75rem;
-        margin-bottom: 2rem;
-      }
-
-      .steps {
-        grid-template-columns: 1fr;
-        gap: 1rem;
-      }
-
-      .features {
-        grid-template-columns: 1fr;
-        gap: 2rem;
-      }
-
-      .faq-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .pricing-card {
-        padding: 2rem 1.5rem;
-      }
-
-      .price-main {
-        font-size: 2.75rem;
-      }
-
-      footer {
-        flex-direction: column;
-        gap: 2rem;
-        padding: 3rem 1.5rem;
-      }
-
-      .footer-links {
-        justify-content: space-between;
-        width: 100%;
-        gap: 1rem;
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="styles.css">
+  <script src="script.js" defer></script>
+
+  <!-- Structured Software Schema Markup for Google rich snippets -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "TriageFlow",
+    "operatingSystem": "All",
+    "applicationCategory": "BusinessApplication",
+    "offers": {
+      "@type": "Offer",
+      "price": "69.99",
+      "priceCurrency": "USD",
+      "priceModel": "Subscription"
+    },
+    "description": "Convert emergency plumbing and electrical calls into structured, actionable job alerts sent directly to your phone via WhatsApp instantly."
+  }
+  </script>
 </head>
 
 <body>
 
   <header>
     <a href="#" class="logo">
-      <img src="./logo.png" alt="Logo">
+      <img src="./logo.png" alt="TriageFlow Automated Dispatch Software Logo">
       𝔗𝔯𝔦𝔞𝔤𝔢<em>𝔉𝔩𝔬𝔴</em>
     </a>
 
@@ -840,8 +61,12 @@
       <a href="#features">Features</a>
       <a href="#pricing">Pricing</a>
       <a href="#faq-section">FAQ</a>
-      <a href="https://whop.com/gentleman-solutions/plumber-emergency/" class="nav-cta" target="_blank"
-        rel="noopener">Get Access</a>
+      <a href="https://whop.com/gentleman-solutions/plumber-emergency/" 
+         class="nav-cta" 
+         data-track="clicked_whop_nav_get_access" 
+         id="nav_whop_get_access"
+         target="_blank" 
+         rel="noopener">Get Access</a>
     </nav>
   </header>
 
@@ -857,10 +82,18 @@
             No calls, no back and forth, no missed emergencies.</p>
 
           <div class="hero-actions">
-            <a href="https://whop.com/gentleman-solutions/plumber-emergency/" class="btn-dark" target="_blank"
-              rel="noopener">Start Free Trial</a>
-            <a href="https://app.triageflow.gentlemansolutions.com/demo" class="btn-outline" target="_blank"
-              rel="noopener">See Live Demo</a>
+            <a href="https://whop.com/gentleman-solutions/plumber-emergency/" 
+               class="btn-dark" 
+               data-track="clicked_whop_free_trial" 
+               id="hero_whop_trial"
+               target="_blank" 
+               rel="noopener">Start Free Trial</a>
+            <a href="https://app.triageflow.gentlemansolutions.com/demo" 
+               class="btn-outline" 
+               data-track="clicked_see_live_demo" 
+               id="hero_live_demo"
+               target="_blank" 
+               rel="noopener">See Live Demo</a>
           </div>
 
           <p class="trial-note">7 days free, then $69.99/month. Cancel anytime.</p>
@@ -869,7 +102,7 @@
     </div>
 
     <section id="seeit">
-      <div class="eyebrow">See it in action!</div>
+      <span class="eyebrow">See it in action!</span>
       <div class="phone-mockup">
         <div class="phone-screen">
           <video src="landing-vid.mp4" controls autoplay muted loop></video>
@@ -881,8 +114,8 @@
 
     <!-- HOW IT WORKS -->
     <section id="how-it-works">
-      <div class="eyebrow">How It Works</div>
-      <div class="section-title">From active leak to dispatched tech in three steps</div>
+      <span class="eyebrow">How It Works</span>
+      <h2 class="section-title">From active leak to dispatched tech in three steps</h2>
       <div class="steps">
         <div class="step">
           <div class="step-num">STEP 01</div>
@@ -909,8 +142,8 @@
 
     <!-- FEATURES -->
     <section id="features">
-      <div class="eyebrow">Platform</div>
-      <div class="section-title">Built around how professionals actually work</div>
+      <span class="eyebrow">Platform</span>
+      <h2 class="section-title">Built around how professionals actually work</h2>
       <div class="features">
         <div class="feature">
           <div class="feature-icon">
@@ -986,14 +219,12 @@
       </div>
     </section>
 
-
-
     <hr class="divider">
 
     <!-- PRICING -->
     <section id="pricing">
-      <div class="eyebrow">Pricing</div>
-      <div class="section-title">One plan. No surprises.</div>
+      <span class="eyebrow">Pricing</span>
+      <h2 class="section-title">One plan. No surprises.</h2>
       <div class="pricing-center">
         <div class="pricing-card">
           <div class="pricing-plan">Operator Plan</div>
@@ -1013,8 +244,12 @@
             <li><span class="check">&#10003;</span> Unlimited triage runs</li>
             <li><span class="check">&#10003;</span> No app required for customers or techs</li>
           </ul>
-          <a href="https://whop.com/gentleman-solutions/plumber-emergency/" class="pricing-cta" target="_blank"
-            rel="noopener">Start 7-Day Free Trial</a>
+          <a href="https://whop.com/gentleman-solutions/plumber-emergency/" 
+             class="pricing-cta" 
+             data-track="clicked_whop_pricing_trial" 
+             id="pricing_whop_trial"
+             target="_blank" 
+             rel="noopener">Start 7-Day Free Trial</a>
           <p class="pricing-footnote">Secure checkout via Whop. Cancel anytime in one click.</p>
         </div>
       </div>
@@ -1024,8 +259,8 @@
 
     <!-- FAQ -->
     <section id="faq-section">
-      <div class="eyebrow">FAQ</div>
-      <div class="section-title">Common questions</div>
+      <span class="eyebrow">FAQ</span>
+      <h2 class="section-title">Common questions</h2>
       <div class="faq-grid">
         <div class="faq-item">
           <h4>Do I need a WhatsApp Business API account?</h4>
@@ -1055,7 +290,7 @@
   <footer>
     <div>
       <a href="#" class="logo">
-        <img src="./logo.png" alt="Logo">
+        <img src="./logo.png" alt="TriageFlow Automated Dispatch Software Footer Logo">
         𝔗𝔯𝔦𝔞𝔤𝔢<em>𝔉𝔩𝔬𝔴</em>
       </a>
       <p class="footer-copy">&copy; 2026 TriageFlow. All rights reserved.</p>
@@ -1074,22 +309,6 @@
     </div>
   </footer>
 
-  <script>
-    const toggle = document.querySelector('.menu-toggle');
-    const nav = document.querySelector('nav');
-
-    toggle.addEventListener('click', () => {
-      nav.classList.toggle('active');
-      toggle.classList.toggle('active');
-    });
-
-    nav.querySelectorAll('a').forEach(link => {
-      link.addEventListener('click', () => {
-        nav.classList.remove('active');
-        toggle.classList.remove('active');
-      });
-    });
-  </script>
 
 </body>
 

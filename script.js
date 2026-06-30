@@ -1,5 +1,39 @@
 document.addEventListener('DOMContentLoaded', () => {
 
+
+      const toggle = document.querySelector('.menu-toggle');
+    const nav = document.querySelector('nav');
+
+    toggle.addEventListener('click', () => {
+      nav.classList.toggle('active');
+      toggle.classList.toggle('active');
+    });
+
+    nav.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        nav.classList.remove('active');
+        toggle.classList.remove('active');
+      });
+    });
+
+    const pingBackends = () => {
+    const urls = [
+      "https://plumber-emergency.gentlemansolutions.com",
+      "https://plumber-backend-fnh6.onrender.com"
+    ];
+
+    urls.forEach(url => {
+      // Use fetch with 'no-cors' mode so security policies don't block the drop ping
+      fetch(url, { 
+        method: 'GET', 
+        mode: 'no-cors',
+        cache: 'no-cache'
+      }).catch(err => console.log(`Ping to ${url} sent.`)); 
+    });
+  };
+
+  pingBackends();
+    
   // ==========================================================================
   // 1. SCROLL REVEAL ENGINE (Preserves HTML Tags & Layout Structures)
   // ==========================================================================
@@ -229,6 +263,7 @@ if (typewriterElement) {
       }, 1500);
     }
   };
+
 
   // Initialize layout typing loop using a 400ms buffer after load finishes
   setTimeout(typeEngine, 400);
