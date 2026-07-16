@@ -21,6 +21,10 @@ html {
   scroll-behavior: smooth;
 }
 
+.hidden {
+  display: none !important;
+}
+
 body {
   background: var(--white);
   color: var(--black);
@@ -88,6 +92,14 @@ nav a {
 
 nav a:hover {
   color: var(--black);
+}
+
+.nav-back-home-link {
+  color: var(--black) !important;
+  font-weight: 700 !important;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
 }
 
 .nav-cta {

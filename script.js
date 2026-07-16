@@ -120,6 +120,64 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+
+
+  const toggleViews = () => {
+    const isFounders = window.location.hash === '#founders';
+    const landingView = document.getElementById('landing-view');
+    const foundersSection = document.getElementById('founders-section');
+    
+    if (isFounders) {
+      if (landingView) landingView.classList.add('hidden');
+      if (foundersSection) foundersSection.classList.remove('hidden');
+      
+      // Hide all standard header navigation links
+      document.querySelectorAll('.landing-nav-link').forEach(el => el.classList.add('hidden'));
+      
+      // Add/Show back link in nav if not exists
+      let backLink = document.getElementById('nav-back-home');
+      if (!backLink) {
+        backLink = document.createElement('a');
+        backLink.id = 'nav-back-home';
+        backLink.href = '#';
+        backLink.className = 'nav-back-home-link';
+        backLink.innerHTML = '&larr; Back to Home';
+        const nav = document.querySelector('nav');
+        if (nav) {
+          nav.insertBefore(backLink, nav.firstChild);
+        }
+      } else {
+        backLink.classList.remove('hidden');
+      }
+      
+      window.scrollTo(0, 0);
+    } else {
+      if (landingView) landingView.classList.remove('hidden');
+      if (foundersSection) foundersSection.classList.add('hidden');
+      
+      // Show standard header navigation links
+      document.querySelectorAll('.landing-nav-link').forEach(el => el.classList.remove('hidden'));
+      
+      const backLink = document.getElementById('nav-back-home');
+      if (backLink) {
+        backLink.classList.add('hidden');
+      }
+      
+      // Handle scrolling to landing sections when routing back
+      if (window.location.hash && window.location.hash !== '#') {
+        const targetElement = document.querySelector(window.location.hash);
+        if (targetElement) {
+          setTimeout(() => {
+            targetElement.scrollIntoView({ behavior: 'smooth' });
+          }, 50);
+        }
+      }
+    }
+  };
+
+  window.addEventListener('hashchange', toggleViews);
+  toggleViews();
+
   // ==========================================================================
   // 3. POSTHOG ANALYTICS CAPTURE LAYER
   // ==========================================================================
