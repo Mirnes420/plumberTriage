@@ -776,3 +776,145 @@ footer {
     font-size: 1rem !important;
   }
 }
+
+/* ── COMPARISON SECTION ── */
+#why-coherzo {
+  padding: 4rem 1.5rem;
+}
+
+.comparison-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.comparison-card {
+  border: 1px solid var(--gray-border);
+  border-radius: 16px;
+  padding: 2.5rem 2rem;
+  background: var(--white);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.comparison-card.old-way {
+  background: var(--off-white);
+}
+
+.comparison-card.coherzo-way {
+  border: 2px solid var(--black);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+.comparison-card.coherzo-way::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--green), #22c55e);
+}
+
+.comparison-card .card-header {
+  margin-bottom: 2rem;
+}
+
+.comparison-card .card-tag {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 0.25rem 0.6rem;
+  border-radius: 4px;
+  margin-bottom: 0.75rem;
+}
+
+.old-way .card-tag {
+  background: rgba(214, 58, 42, 0.1);
+  color: var(--red);
+}
+
+.coherzo-way .card-tag {
+  background: rgba(22, 163, 74, 0.1);
+  color: var(--green);
+}
+
+.comparison-card h3 {
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.comparison-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+.comparison-list li {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.comparison-list .icon-cross {
+  width: 24px;
+  height: 24px;
+  background: rgba(214, 58, 42, 0.1);
+  color: var(--red);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+.comparison-list .icon-check {
+  width: 24px;
+  height: 24px;
+  background: rgba(22, 163, 74, 0.1);
+  color: var(--green);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.9rem;
+  flex-shrink: 0;
+}
+
+.comparison-list .item-content strong {
+  display: block;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--black);
+  margin-bottom: 0.25rem;
+}
+
+.comparison-list .item-content p {
+  font-size: 0.875rem;
+  color: var(--gray-mid);
+  line-height: 1.5;
+}
+
+/* Responsive adjust for comparison */
+@media (min-width: 768px) {
+  #why-coherzo {
+    padding: 6rem 2.5rem;
+  }
+  .comparison-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+  }
+  .comparison-card.coherzo-way:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+  }
+}
