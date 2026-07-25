@@ -326,3 +326,92 @@ if (typewriterElement) {
   // Initialize layout typing loop using a 400ms buffer after load finishes
   setTimeout(typeEngine, 400);
 }
+
+// ==========================================================================
+// 6. GENTLE PLUMBING-THEMED BACKGROUND CANVAS SYSTEM
+// ==========================================================================
+const initBgCanvas = () => {
+  const canvas = document.createElement('canvas');
+  canvas.id = 'bg-canvas';
+  document.body.insertBefore(canvas, document.body.firstChild);
+
+  const ctx = canvas.getContext('2d');
+  let width = canvas.width = window.innerWidth;
+  let height = canvas.height = window.innerHeight;
+
+  const particles = [];
+  // Keep particle count low for high performance and professional subtlety
+  const particleCount = Math.min(30, Math.floor((width * height) / 50000));
+
+  class Bubble {
+    constructor() {
+      this.reset();
+      this.y = Math.random() * height; // Distribute vertically at start
+    }
+    reset() {
+      this.x = Math.random() * width;
+      this.y = height + Math.random() * 100;
+      this.radius = Math.random() * 12 + 4; // Subtly sized bubbles
+      this.speed = Math.random() * 0.35 + 0.15; // Slow, calm motion
+      this.opacity = Math.random() * 0.08 + 0.03; // Extremely faint opacity
+      this.wobbleSpeed = Math.random() * 0.015 + 0.005;
+      this.wobbleRange = Math.random() * 8 + 2;
+      this.wobbleAngle = Math.random() * Math.PI * 2;
+    }
+    update() {
+      this.y -= this.speed;
+      this.wobbleAngle += this.wobbleSpeed;
+      this.xOffset = Math.sin(this.wobbleAngle) * this.wobbleRange;
+      if (this.y + this.radius < 0) {
+        this.reset();
+      }
+    }
+    draw() {
+      const currentX = this.x + (this.xOffset || 0);
+      
+      // Outer bubble ring
+      ctx.beginPath();
+      ctx.arc(currentX, this.y, this.radius, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(14, 165, 233, ${this.opacity})`; // Soft sky/water blue
+      ctx.fill();
+      
+      // Inside highlight spot for liquid feel
+      ctx.beginPath();
+      ctx.arc(currentX - this.radius * 0.3, this.y - this.radius * 0.3, this.radius * 0.15, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity * 1.8})`;
+      ctx.fill();
+    }
+  }
+
+  for (let i = 0; i < particleCount; i++) {
+    particles.push(new Bubble());
+  }
+
+  const resize = () => {
+    width = canvas.width = window.innerWidth;
+    height = canvas.height = window.innerHeight;
+  };
+  
+  // Throttle resize event slightly
+  let resizeTimeout;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(resize, 100);
+  });
+
+  const animate = () => {
+    ctx.clearRect(0, 0, width, height);
+    for (let i = 0; i < particles.length; i++) {
+      particles[i].update();
+      particles[i].draw();
+    }
+    requestAnimationFrame(animate);
+  };
+  animate();
+};
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initBgCanvas);
+} else {
+  initBgCanvas();
+}
